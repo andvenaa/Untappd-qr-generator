@@ -33,7 +33,7 @@ No database. No authentication. Just paste a URL and scan.
 
 ```bash
 # 1 — Clone or download this project
-git clone https://github.com/yourname/untappd-qr.git
+git clone https://github.com/andvenaa/Untappd-qr-generator.git
 cd untappd-qr
 
 # 2 — Install dependencies
