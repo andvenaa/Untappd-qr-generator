@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Untappd QR Generator</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>🍺 Untappd QR Generator</h1>
+    <p>Generate a QR code for any Untappd check-in link</p>
+  </header>
+
+  <main>
+
+    <!-- ── Left panel: controls ─────────────────────────────────── -->
+    <section class="controls-panel">
+
+      <form id="qr-form" novalidate>
+
+        <!-- URL input -->
+        <div class="field-group">
+          <label for="url-input">Untappd URL</label>
+          <div class="url-row">
+            <input
+              id="url-input"
+              type="url"
+              placeholder="https://untappd.com/qr/beer/..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button type="button" id="copy-url-btn" title="Copy URL">⎘</button>
+          </div>
+        </div>
+
+        <!-- Size -->
+        <div class="field-group">
+          <label for="size-select">Image size</label>
+          <select id="size-select">
+            <option value="200">200 × 200</option>
+            <option value="300">300 × 300</option>
+            <option value="400" selected>400 × 400</option>
+            <option value="500">500 × 500</option>
+            <option value="600">600 × 600</option>
+            <option value="800">800 × 800</option>
+            <option value="1000">1000 × 1000</option>
+          </select>
+        </div>
+
+        <!-- Margin -->
+        <div class="field-group">
+          <label for="margin-range">
+            Margin &nbsp;<span id="margin-value">4</span> modules
+          </label>
+          <input
+            id="margin-range"
+            type="range"
+            min="0"
+            max="10"
+            value="4"
+          />
+        </div>
+
+        <!-- Format -->
+        <div class="field-group">
+          <label>Format</label>
+          <div class="radio-row">
+            <label class="radio-label">
+              <input type="radio" name="format" value="png" checked /> PNG
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="format" value="svg" /> SVG
+            </label>
+          </div>
+        </div>
+
+        <!-- Generate button -->
+        <button type="submit" id="generate-btn" class="btn-primary">
+          Generate QR Code
+        </button>
+
+      </form>
+
+      <!-- Download -->
+      <div class="field-group download-group">
+        <label for="filename-input">Filename</label>
+        <div class="url-row">
+          <input
+            id="filename-input"
+            type="text"
+            placeholder="untappd-qr"
+          />
+          <button type="button" id="download-btn" class="btn-secondary" disabled>
+            ⬇ Save
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Right panel: preview ──────────────────────────────────── -->
+    <section class="preview-panel">
+
+      <div id="loading" style="display:none;">
+        <div class="spinner"></div>
+        <span>Generating…</span>
+      </div>
+
+      <img  id="preview-img" alt="QR Code preview" style="display:none;" />
+      <div  id="preview-svg" style="display:none;"></div>
+
+      <div id="placeholder">
+        <span>QR code will appear here</span>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>
