@@ -107,13 +107,14 @@ function getIconPath() {
  * the icon covers ~22 %, leaving an 8 % safety margin.
  *
  * @param {string} url
- * @param {{ size?: number, margin?: number }} opts
+ * @param {{ size?: number, margin?: number, centerImage?: boolean }} opts
  * @returns {Promise<Buffer>} PNG buffer
  */
 async function generateQrPng(url, opts = {}) {
   // Clamp inputs to safe ranges
   const size   = Math.min(Math.max(parseInt(opts.size,   10) || 400, 100), 1000);
   const margin = Math.min(Math.max(parseInt(opts.margin, 10) || 2,     0),   10);
+  const centerImage = opts.centerImage !== false;
 
   // ── Step 1: render the raw QR to a Buffer via qrcode ─────────────────────
   const qrBuffer = await QRCode.toBuffer(url, {
@@ -129,7 +130,7 @@ async function generateQrPng(url, opts = {}) {
   // ── Step 2: check whether we have an icon to overlay ─────────────────────
   const iconPath = getIconPath();
 
-  if (!iconPath) {
+  if (!centerImage || !iconPath) {
     // No icon — return the plain QR code
     return qrBuffer;
   }
@@ -211,7 +212,7 @@ async function generateQrPng(url, opts = {}) {
  * in Inkscape / Illustrator.
  *
  * @param {string} url
- * @param {{ margin?: number }} opts
+ * @param {{ margin?: number, centerImage?: boolean }} opts
  * @returns {Promise<string>} SVG markup string
  */
 async function generateQrSvg(url, opts = {}) {
@@ -252,6 +253,7 @@ app.post("/api/generate", async (req, res) => {
       format  = "png",
       size    = 400,
       margin  = 2,
+      centerImage = true,
     } = req.body;
 
     // Validate URL
@@ -281,7 +283,7 @@ app.post("/api/generate", async (req, res) => {
     }
 
     // PNG path
-    const pngBuffer = await generateQrPng(url, { size, margin });
+    const pngBuffer = await generateQrPng(url, { size, margin, centerImage });
     const dataUrl   = `data:image/png;base64,${pngBuffer.toString("base64")}`;
 
     return res.json({

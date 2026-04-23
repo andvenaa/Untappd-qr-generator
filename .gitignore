@@ -20,6 +20,7 @@ desktop.ini
 
 # ── Editor / IDE ─────────────────────────────────────────────────────────────
 .vscode/
+.codex
 .idea/
 *.suo
 *.ntvs*

@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sizeSelect    = document.getElementById("size-select");
   const marginRange   = document.getElementById("margin-range");
   const marginValue   = document.getElementById("margin-value");
+  const centerImageToggle = document.getElementById("center-image-toggle");
   const formatRadios  = document.querySelectorAll('input[name="format"]');
   const generateBtn   = document.getElementById("generate-btn");
   const loadingEl     = document.getElementById("loading");
@@ -20,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── Sanity check ──────────────────────────────────────────────────
   const nodes = {
-    form, urlInput, sizeSelect, marginRange, marginValue,
+    form, urlInput, sizeSelect, marginRange, marginValue, centerImageToggle,
     generateBtn, loadingEl, previewImg, previewSvg,
     placeholderEl, downloadBtn, filenameInput, copyUrlBtn,
   };
@@ -60,6 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return "png";
   }
 
+  function isCenterImageEnabled() {
+    return centerImageToggle.checked;
+  }
+
   // ── localStorage ──────────────────────────────────────────────────
   const LS_KEY = "untappd_qr_last_url";
 
@@ -78,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const size   = parseInt(sizeSelect.value, 10);
     const margin = parseInt(marginRange.value, 10);
     const format = getFormat();
+    const centerImage = isCenterImageEnabled();
 
     if (!url) {
       urlInput.focus();
@@ -93,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res  = await fetch("/api/generate", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ url, size, margin, format }),
+        body:    JSON.stringify({ url, size, margin, format, centerImage }),
       });
       const json = await res.json();
 
