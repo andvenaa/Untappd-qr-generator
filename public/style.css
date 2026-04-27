@@ -71,6 +71,12 @@ form { display: flex; flex-direction: column; gap: 1.2rem; }
 
 label { font-size: .85rem; color: var(--text-dim); font-weight: 600; }
 
+.field-hint {
+  color: var(--text-dim);
+  font-size: .82rem;
+  line-height: 1.4;
+}
+
 input[type="url"],
 input[type="text"],
 select {

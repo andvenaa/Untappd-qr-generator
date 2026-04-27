@@ -105,6 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!json.success) { showError(json.error || "Server error."); return; }
 
+      if (json.canonicalUrl) {
+        urlInput.value = json.canonicalUrl;
+        saveUrl(json.canonicalUrl);
+      }
+
       currentFormat  = json.format;
       currentDataUrl = json.data;
 

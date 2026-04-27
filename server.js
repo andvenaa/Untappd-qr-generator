@@ -34,6 +34,20 @@ app.use(express.static(path.join(__dirname, "public")));
  * @param {string} raw
  * @returns {{ valid: boolean, url: string, error?: string }}
  */
+function canonicalizeUntappdUrl(parsed) {
+  const host = parsed.hostname.toLowerCase();
+  if (!["untappd.com", "www.untappd.com"].includes(host)) {
+    return parsed.href;
+  }
+
+  const beerMatch = parsed.pathname.match(/^\/b\/[^/]+\/(\d+)(?:\/)?$/i);
+  if (beerMatch) {
+    return `https://untappd.com/qr/beer/${beerMatch[1]}`;
+  }
+
+  return parsed.href;
+}
+
 function validateUrl(raw) {
   if (!raw || typeof raw !== "string") {
     return { valid: false, url: "", error: "URL is required." };
@@ -59,7 +73,7 @@ function validateUrl(raw) {
         error: "Only http and https URLs are supported.",
       };
     }
-    return { valid: true, url: parsed.href };
+    return { valid: true, url: canonicalizeUntappdUrl(parsed) };
   } catch {
     return {
       valid: false,
