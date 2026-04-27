@@ -64,6 +64,23 @@ main {
   overflow: hidden;
 }
 
+.site-footer {
+  margin-top: 2rem;
+  color: var(--text-dim);
+  font-size: .85rem;
+  text-align: center;
+}
+
+.site-footer a {
+  color: var(--amber);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
 /* ── Form fields ────────────────────────────────────────────────── */
 form { display: flex; flex-direction: column; gap: 1.2rem; }
 
